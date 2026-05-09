@@ -3746,6 +3746,7 @@ export default function App() {
   const [namesQuery, setNamesQuery] = useState("");
   const [playingKey, setPlayingKey] = useState(null);
   const audioRef = useRef(null);
+  const nextAudioRef = useRef(null);
   const [openSurah, setOpenSurah] = useState(null);
   const [surahAutoPlay, setSurahAutoPlay] = useState(null); // surahIdx en cours de lecture auto
   const playSurahFromVerseRef = useRef(null);
@@ -3758,6 +3759,9 @@ export default function App() {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       audioRef.current = null;
+    }
+    if (nextAudioRef.current) {
+      nextAudioRef.current = null;
     }
     setPlayingKey(null);
     setSurahAutoPlay(null);
@@ -3895,6 +3899,7 @@ export default function App() {
     const s = SURAHS[surahIdx];
     if (!s || verseIdx >= s.verses.length) {
       if (audioRef.current) { audioRef.current = null; }
+      nextAudioRef.current = null;
       setPlayingKey(null);
       setSurahAutoPlay(null);
       return;
@@ -3903,18 +3908,34 @@ export default function App() {
       audioRef.current.pause();
       audioRef.current = null;
     }
+
+    // Utiliser l'audio préchargé si disponible, sinon créer
     const url = getVerseAudioUrl(s.num, verseIdx, currentReciter);
     if (!url) return;
-    const key = `surah-${s.num}-${verseIdx}`;
-    const audio = new Audio(url);
+    const audio = nextAudioRef.current || new Audio(url);
+    nextAudioRef.current = null;
+
     audioRef.current = audio;
-    setPlayingKey(key);
+    setPlayingKey(`surah-${s.num}-${verseIdx}`);
     setSurahAutoPlay(surahIdx);
+
+    // Précharger le verset suivant pendant que celui-ci joue
+    if (verseIdx + 1 < s.verses.length) {
+      const nextUrl = getVerseAudioUrl(s.num, verseIdx + 1, currentReciter);
+      if (nextUrl) {
+        const next = new Audio(nextUrl);
+        next.preload = "auto";
+        nextAudioRef.current = next;
+      }
+    }
+
     audio.onended = () => {
+      audioRef.current = null;
       playSurahFromVerseRef.current(surahIdx, verseIdx + 1, currentReciter);
     };
     audio.onerror = () => {
       audioRef.current = null;
+      nextAudioRef.current = null;
       setPlayingKey(null);
       setSurahAutoPlay(null);
     };
