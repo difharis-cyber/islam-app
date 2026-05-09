@@ -4453,8 +4453,6 @@ export default function App() {
           <div
             ref={tabBarScrollRef}
             style={{
-              maxWidth: 760,
-              margin: "0 auto",
               padding: "0 18px",
               display: "flex",
               overflowX: "auto",
@@ -4495,8 +4493,6 @@ export default function App() {
 
       <div
         style={{
-          maxWidth: 760,
-          margin: "0 auto",
           padding: "32px 18px 80px",
           opacity: tabFading ? 0 : 1,
           transition: "opacity 0.13s ease",
@@ -6177,7 +6173,7 @@ export default function App() {
             </div>
 
             {/* Versets */}
-            <div style={{ padding: "32px 24px 80px", maxWidth: 640, margin: "0 auto" }}>
+            <div style={{ padding: "32px 24px 80px" }}>
               {s.verses.map((v, vi) => (
                 <div key={vi} style={{
                   marginBottom: 40,
