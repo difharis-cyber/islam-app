@@ -3455,15 +3455,16 @@ function Card({ children, style }) {
   );
 }
 
-function Tab({ active, onClick, children }) {
+function Tab({ active, onClick, children, buttonRef }) {
   return (
     <button
+      ref={buttonRef}
       onClick={onClick}
       style={{
         padding: "10px 0",
         marginRight: 28,
         border: "none",
-        borderBottom: active ? `2px solid ${C.green}` : "2px solid transparent",
+        borderBottom: "2px solid transparent",
         background: "transparent",
         color: active ? C.green : C.textMuted,
         fontSize: 14,
@@ -3471,10 +3472,24 @@ function Tab({ active, onClick, children }) {
         cursor: "pointer",
         letterSpacing: "0.02em",
         whiteSpace: "nowrap",
-        transition: "all 0.15s",
+        transition: "color 0.2s",
+        position: "relative",
       }}
     >
       {children}
+      {active && (
+        <span style={{
+          position: "absolute",
+          bottom: -2,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: 5,
+          height: 5,
+          borderRadius: "50%",
+          background: C.green,
+          boxShadow: `0 0 6px ${C.green}`,
+        }} />
+      )}
     </button>
   );
 }
@@ -3751,6 +3766,15 @@ export default function App() {
   const [reciter, setReciter] = useState("Yasser_Ad-Dussary_128kbps");
   const [swReady, setSwReady] = useState(false);
   const swRegistrationRef = useRef(null);
+  const tabRefs = useRef({});
+  const tabBarScrollRef = useRef(null);
+  const [tabIndicator, setTabIndicator] = useState({ left: 0, width: 0, ready: false });
+  const [tabFading, setTabFading] = useState(false);
+  const [immersiveSurah, setImmersiveSurah] = useState(null);
+  const pullTouchStartY = useRef(0);
+  const pullScrollTop = useRef(0);
+  const [pullDistance, setPullDistance] = useState(0);
+  const [pullRefreshing, setPullRefreshing] = useState(false);
 
   const stopAudio = () => {
     if (audioRef.current) {
@@ -3761,6 +3785,31 @@ export default function App() {
     setPlayingKey(null);
     setSurahAutoPlay(null);
   };
+
+  const handleTabChange = (newTab) => {
+    if (newTab === tab) return;
+    setTabFading(true);
+    setTimeout(() => {
+      setTab(newTab);
+      setImmersiveSurah(null);
+      setTimeout(() => setTabFading(false), 20);
+    }, 130);
+  };
+
+  useEffect(() => {
+    const el = tabRefs.current[tab];
+    const bar = tabBarScrollRef.current;
+    if (el && bar) {
+      const barRect = bar.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+      setTabIndicator({
+        left: elRect.left - barRect.left + bar.scrollLeft,
+        width: elRect.width,
+        ready: true,
+      });
+      el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+    }
+  }, [tab]);
 
   useEffect(() => {
     return () => {
@@ -3915,7 +3964,7 @@ export default function App() {
       return next;
     });
     // Retour haptique
-    try { if (navigator.vibrate) navigator.vibrate(40); } catch {}
+    try { if (navigator.vibrate) navigator.vibrate(30); } catch {}
   };
 
   const currentCount = () => {
@@ -4273,8 +4322,32 @@ export default function App() {
     { id: "calendrier", label: "Calendrier" },
   ];
 
+  const handlePullStart = (e) => {
+    if (tab !== "prieres") return;
+    pullTouchStartY.current = e.touches[0].clientY;
+    pullScrollTop.current = window.scrollY;
+  };
+  const handlePullMove = (e) => {
+    if (tab !== "prieres") return;
+    if (pullScrollTop.current > 0) return;
+    const dy = e.touches[0].clientY - pullTouchStartY.current;
+    if (dy > 0) setPullDistance(Math.min(dy, 100));
+  };
+  const handlePullEnd = () => {
+    if (tab !== "prieres") return;
+    if (pullDistance > 65) {
+      setPullRefreshing(true);
+      requestPrayerLocation(prayerMethod);
+      setTimeout(() => setPullRefreshing(false), 2000);
+    }
+    setPullDistance(0);
+  };
+
   return (
     <div
+      onTouchStart={handlePullStart}
+      onTouchMove={handlePullMove}
+      onTouchEnd={handlePullEnd}
       style={{
         minHeight: "100vh",
         background: C.bg,
@@ -4378,6 +4451,7 @@ export default function App() {
           }}
         >
           <div
+            ref={tabBarScrollRef}
             style={{
               maxWidth: 760,
               margin: "0 auto",
@@ -4385,23 +4459,48 @@ export default function App() {
               display: "flex",
               overflowX: "auto",
               scrollbarWidth: "none",
+              position: "relative",
             }}
           >
             {tabs.map((t) => (
               <Tab
                 key={t.id}
                 active={tab === t.id}
-                onClick={() => setTab(t.id)}
+                onClick={() => handleTabChange(t.id)}
+                buttonRef={(el) => { if (el) tabRefs.current[t.id] = el; }}
               >
                 {t.label}
               </Tab>
             ))}
+            {/* Indicateur glissant */}
+            {tabIndicator.ready && (
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: tabIndicator.left,
+                  width: tabIndicator.width,
+                  height: 2,
+                  background: C.green,
+                  borderRadius: "2px 2px 0 0",
+                  transition: "left 0.25s cubic-bezier(0.4,0,0.2,1), width 0.25s cubic-bezier(0.4,0,0.2,1)",
+                  boxShadow: `0 0 8px ${C.green}55`,
+                  pointerEvents: "none",
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
 
       <div
-        style={{ maxWidth: 760, margin: "0 auto", padding: "32px 18px 80px" }}
+        style={{
+          maxWidth: 760,
+          margin: "0 auto",
+          padding: "32px 18px 80px",
+          opacity: tabFading ? 0 : 1,
+          transition: "opacity 0.13s ease",
+        }}
       >
         {/* ═══════════════ SOURATES ═══════════════ */}
         {tab === "sourates" && (
@@ -4499,6 +4598,27 @@ export default function App() {
 
                 {openSurah === i && (
                   <>
+                    <div style={{ marginTop: 14, marginBottom: 4 }}>
+                      <button
+                        onClick={() => setImmersiveSurah(i)}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 6,
+                          padding: "6px 14px",
+                          borderRadius: 999,
+                          border: `1px solid ${C.border}`,
+                          background: "transparent",
+                          color: C.textMuted,
+                          fontSize: 12,
+                          cursor: "pointer",
+                          fontFamily: "inherit",
+                          letterSpacing: "0.04em",
+                        }}
+                      >
+                        ⛶ Mode lecture immersive
+                      </button>
+                    </div>
                     {s.tip && (
                       <div
                         style={{
@@ -5978,6 +6098,138 @@ export default function App() {
         Sources : Coran · Bukhârî · Muslim · Tirmidhî · Abû Dâwûd · Nasâʾî · Ibn
         Mâjah · Aḥmad
       </div>
+
+      {/* Pull-to-refresh indicator */}
+      {tab === "prieres" && (pullDistance > 10 || pullRefreshing) && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 200,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: 44,
+          background: C.surface,
+          borderBottom: `1px solid ${C.border}`,
+          fontSize: 12,
+          color: C.green,
+          fontWeight: 600,
+          letterSpacing: "0.06em",
+          boxShadow: C.shadow,
+          transform: `translateY(${pullRefreshing ? 0 : Math.min(pullDistance - 10, 44) - 44}px)`,
+          transition: pullRefreshing ? "transform 0.2s" : "none",
+        }}>
+          {pullRefreshing ? "⟳ Actualisation…" : pullDistance > 65 ? "↑ Relâcher pour actualiser" : "↓ Tirer pour actualiser"}
+        </div>
+      )}
+
+      {/* MODE IMMERSIF SOURATE */}
+      {immersiveSurah !== null && SURAHS[immersiveSurah] && (() => {
+        const s = SURAHS[immersiveSurah];
+        return (
+          <div style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 500,
+            background: "#05110a",
+            overflowY: "auto",
+            WebkitOverflowScrolling: "touch",
+          }}>
+            {/* Barre haute */}
+            <div style={{
+              position: "sticky",
+              top: 0,
+              zIndex: 10,
+              background: "rgba(5,17,10,0.95)",
+              backdropFilter: "blur(8px)",
+              borderBottom: "1px solid rgba(15,122,74,0.25)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "14px 20px",
+            }}>
+              <div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", fontFamily: "Georgia,serif" }}>
+                  {s.name}
+                </div>
+                <div style={{ fontSize: 20, color: "#4ecca3", fontFamily: "'Amiri',serif" }}>
+                  {s.ar_name}
+                </div>
+              </div>
+              <button
+                onClick={() => setImmersiveSurah(null)}
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  borderRadius: "50%",
+                  width: 38,
+                  height: 38,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                  fontSize: 18,
+                  cursor: "pointer",
+                }}
+              >✕</button>
+            </div>
+
+            {/* Versets */}
+            <div style={{ padding: "32px 24px 80px", maxWidth: 640, margin: "0 auto" }}>
+              {s.verses.map((v, vi) => (
+                <div key={vi} style={{
+                  marginBottom: 40,
+                  borderBottom: vi < s.verses.length - 1 ? "1px solid rgba(15,122,74,0.2)" : "none",
+                  paddingBottom: 40,
+                }}>
+                  <div style={{
+                    fontSize: 11,
+                    color: "rgba(201,168,118,0.7)",
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    marginBottom: 16,
+                    textAlign: "center",
+                  }}>
+                    Verset {vi + 1} / {s.verses.length}
+                  </div>
+                  <div style={{
+                    fontSize: 30,
+                    fontFamily: "'Amiri',Georgia,serif",
+                    color: "#ffffff",
+                    direction: "rtl",
+                    textAlign: "center",
+                    lineHeight: 2.0,
+                    marginBottom: 20,
+                  }}>
+                    {v[0]}
+                  </div>
+                  <div style={{
+                    fontSize: 14,
+                    color: "#4ecca3",
+                    textAlign: "center",
+                    fontStyle: "italic",
+                    marginBottom: 10,
+                    letterSpacing: "0.02em",
+                    lineHeight: 1.6,
+                  }}>
+                    {v[1]}
+                  </div>
+                  <div style={{
+                    fontSize: 13,
+                    color: "rgba(255,255,255,0.65)",
+                    textAlign: "center",
+                    lineHeight: 1.75,
+                  }}>
+                    {v[2]}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
