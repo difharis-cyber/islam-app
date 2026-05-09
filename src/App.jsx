@@ -4363,7 +4363,8 @@ export default function App() {
         <div
           style={{
             position: "relative",
-            height: 200,
+            height: "calc(200px + env(safe-area-inset-top))",
+            paddingTop: "env(safe-area-inset-top)",
             backgroundColor: C.greenDeep,
             overflow: "hidden",
           }}
