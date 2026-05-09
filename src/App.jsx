@@ -3746,10 +3746,8 @@ export default function App() {
   const [namesQuery, setNamesQuery] = useState("");
   const [playingKey, setPlayingKey] = useState(null);
   const audioRef = useRef(null);
-  const nextAudioRef = useRef(null);
   const [openSurah, setOpenSurah] = useState(null);
-  const [surahAutoPlay, setSurahAutoPlay] = useState(null); // surahIdx en cours de lecture auto
-  const playSurahFromVerseRef = useRef(null);
+  const [surahAutoPlay, setSurahAutoPlay] = useState(null);
   const [reciter, setReciter] = useState("Yasser_Ad-Dussary_128kbps");
   const [swReady, setSwReady] = useState(false);
   const swRegistrationRef = useRef(null);
@@ -3759,9 +3757,6 @@ export default function App() {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       audioRef.current = null;
-    }
-    if (nextAudioRef.current) {
-      nextAudioRef.current = null;
     }
     setPlayingKey(null);
     setSurahAutoPlay(null);
@@ -3846,106 +3841,57 @@ export default function App() {
   const playAdhanRef = useRef(null);
 
   const RECITERS = [
-    { id: "Yasser_Ad-Dussary_128kbps", label: "Yasser Ad-Dussary" },
-    { id: "Abdurrahmaan_As-Sudais_192kbps", label: "Sudais" },
-    { id: "Saood_ash-Shuraym_128kbps", label: "Shuraim" },
+    { id: "Yasser_Ad-Dussary_128kbps", label: "Yasser Ad-Dussary", surahBase: "https://server11.mp3quran.net/yasser/" },
+    { id: "Abdurrahmaan_As-Sudais_192kbps", label: "Sudais", surahBase: "https://server11.mp3quran.net/sds/" },
+    { id: "Saood_ash-Shuraym_128kbps", label: "Shuraim", surahBase: "https://server7.mp3quran.net/shur/" },
   ];
 
-  const getVerseAudioUrl = (surahNum, verseIndex, reciterOverride) => {
-    const BASE = `https://everyayah.com/data/${reciterOverride || reciter}/`;
-
+  // URL verset individuel (everyayah.com)
+  const getVerseAudioUrl = (surahNum, verseIndex) => {
+    const BASE = `https://everyayah.com/data/${reciter}/`;
     if (typeof surahNum === "string" && surahNum.includes(":")) {
       const [surah, ayah] = surahNum.split(":").map(Number);
       if (!Number.isFinite(surah) || !Number.isFinite(ayah)) return null;
       return `${BASE}${String(surah).padStart(3, "0")}${String(ayah).padStart(3, "0")}.mp3`;
     }
-
     if (!Number.isFinite(surahNum)) return null;
-    const ayah = verseIndex + 1;
-    return `${BASE}${String(surahNum).padStart(3, "0")}${String(ayah).padStart(3, "0")}.mp3`;
+    return `${BASE}${String(surahNum).padStart(3, "0")}${String(verseIndex + 1).padStart(3, "0")}.mp3`;
+  };
+
+  // URL sourate complète (mp3quran.net) — null pour les références verset (ex: "2:255")
+  const getSurahAudioUrl = (surahNum) => {
+    if (typeof surahNum === "string" && surahNum.includes(":")) return null;
+    if (!Number.isFinite(surahNum)) return null;
+    const r = RECITERS.find(r => r.id === reciter);
+    if (!r) return null;
+    return `${r.surahBase}${String(surahNum).padStart(3, "0")}.mp3`;
   };
 
   const playVerseAudio = (url, key) => {
     if (!url) return;
-
-    if (playingKey === key) {
-      stopAudio();
-      return;
-    }
-
+    if (playingKey === key) { stopAudio(); return; }
     stopAudio();
-
     const audio = new Audio(url);
     audioRef.current = audio;
     setPlayingKey(key);
-
-    audio.onended = () => {
-      audioRef.current = null;
-      setPlayingKey(null);
-    };
-
-    audio.onerror = () => {
-      audioRef.current = null;
-      setPlayingKey(null);
-    };
-
-    audio.play().catch(() => {
-      audioRef.current = null;
-      setPlayingKey(null);
-    });
+    audio.onended = () => { audioRef.current = null; setPlayingKey(null); };
+    audio.onerror = () => { audioRef.current = null; setPlayingKey(null); };
+    audio.play().catch(() => { audioRef.current = null; setPlayingKey(null); });
   };
 
-  const playSurahFromVerse = (surahIdx, verseIdx, currentReciter) => {
+  const playSurah = (surahIdx) => {
     const s = SURAHS[surahIdx];
-    if (!s || verseIdx >= s.verses.length) {
-      if (audioRef.current) { audioRef.current = null; }
-      nextAudioRef.current = null;
-      setPlayingKey(null);
-      setSurahAutoPlay(null);
-      return;
-    }
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
-
-    // Utiliser l'audio préchargé si disponible, sinon créer
-    const url = getVerseAudioUrl(s.num, verseIdx, currentReciter);
+    if (!s) return;
+    const url = getSurahAudioUrl(s.num);
     if (!url) return;
-    const audio = nextAudioRef.current || new Audio(url);
-    nextAudioRef.current = null;
-
+    stopAudio();
+    const audio = new Audio(url);
     audioRef.current = audio;
-    setPlayingKey(`surah-${s.num}-${verseIdx}`);
     setSurahAutoPlay(surahIdx);
-
-    // Précharger le verset suivant pendant que celui-ci joue
-    if (verseIdx + 1 < s.verses.length) {
-      const nextUrl = getVerseAudioUrl(s.num, verseIdx + 1, currentReciter);
-      if (nextUrl) {
-        const next = new Audio(nextUrl);
-        next.preload = "auto";
-        nextAudioRef.current = next;
-      }
-    }
-
-    audio.onended = () => {
-      audioRef.current = null;
-      playSurahFromVerseRef.current(surahIdx, verseIdx + 1, currentReciter);
-    };
-    audio.onerror = () => {
-      audioRef.current = null;
-      nextAudioRef.current = null;
-      setPlayingKey(null);
-      setSurahAutoPlay(null);
-    };
-    audio.play().catch(() => {
-      audioRef.current = null;
-      setPlayingKey(null);
-      setSurahAutoPlay(null);
-    });
+    audio.onended = () => { audioRef.current = null; setSurahAutoPlay(null); };
+    audio.onerror = () => { audioRef.current = null; setSurahAutoPlay(null); };
+    audio.play().catch(() => { audioRef.current = null; setSurahAutoPlay(null); });
   };
-  playSurahFromVerseRef.current = playSurahFromVerse;
 
   // ── Compteur Tasbih ──────────────────────────────────────────────
   const todayKey = () => new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
@@ -4569,35 +4515,31 @@ export default function App() {
                         {s.tip}
                       </div>
                     )}
-                    <div style={{ marginTop: 18, marginBottom: 4 }}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (surahAutoPlay === i) {
-                            stopAudio();
-                          } else {
-                            playSurahFromVerseRef.current(i, 0, reciter);
-                          }
-                        }}
-                        style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 8,
-                          background: surahAutoPlay === i ? C.gold : "transparent",
-                          border: `1px solid ${surahAutoPlay === i ? C.gold : C.border}`,
-                          borderRadius: 20,
-                          padding: "7px 16px",
-                          color: surahAutoPlay === i ? "#0a0a0a" : C.textMuted,
-                          fontSize: 13,
-                          cursor: "pointer",
-                          fontWeight: 500,
-                          transition: "all 0.2s",
-                        }}
-                      >
-                        <span style={{ fontSize: 15 }}>{surahAutoPlay === i ? "■" : "▶"}</span>
-                        {surahAutoPlay === i ? "Arrêter la récitation" : "Écouter la sourate entière"}
-                      </button>
-                    </div>
+                    {getSurahAudioUrl(s.num) && (
+                      <div style={{ marginTop: 18, marginBottom: 4 }}>
+                        <button
+                          type="button"
+                          onClick={() => surahAutoPlay === i ? stopAudio() : playSurah(i)}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 8,
+                            background: surahAutoPlay === i ? C.gold : "transparent",
+                            border: `1px solid ${surahAutoPlay === i ? C.gold : C.border}`,
+                            borderRadius: 20,
+                            padding: "7px 16px",
+                            color: surahAutoPlay === i ? "#0a0a0a" : C.textMuted,
+                            fontSize: 13,
+                            cursor: "pointer",
+                            fontWeight: 500,
+                            transition: "all 0.2s",
+                          }}
+                        >
+                          <span style={{ fontSize: 15 }}>{surahAutoPlay === i ? "■" : "▶"}</span>
+                          {surahAutoPlay === i ? "Arrêter la récitation" : "Écouter la sourate entière"}
+                        </button>
+                      </div>
+                    )}
                     <div style={{ marginTop: 20 }}>
                       {s.verses.map((v, vi) => (
                         <div
