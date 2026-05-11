@@ -3790,7 +3790,6 @@ export default function App() {
     setTabFading(true);
     setTimeout(() => {
       setTab(newTab);
-      setImmersiveSurah(null);
       setTimeout(() => setTabFading(false), 20);
     }, 130);
   };
