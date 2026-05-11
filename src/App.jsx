@@ -3770,7 +3770,6 @@ export default function App() {
   const tabBarScrollRef = useRef(null);
   const [tabIndicator, setTabIndicator] = useState({ left: 0, width: 0, ready: false });
   const [tabFading, setTabFading] = useState(false);
-  const [immersiveSurah, setImmersiveSurah] = useState(null);
   const pullTouchStartY = useRef(0);
   const pullScrollTop = useRef(0);
   const [pullDistance, setPullDistance] = useState(0);
@@ -4595,27 +4594,6 @@ export default function App() {
 
                 {openSurah === i && (
                   <>
-                    <div style={{ marginTop: 14, marginBottom: 4 }}>
-                      <button
-                        onClick={() => setImmersiveSurah(i)}
-                        style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 6,
-                          padding: "6px 14px",
-                          borderRadius: 999,
-                          border: `1px solid ${C.border}`,
-                          background: "transparent",
-                          color: C.textMuted,
-                          fontSize: 12,
-                          cursor: "pointer",
-                          fontFamily: "inherit",
-                          letterSpacing: "0.04em",
-                        }}
-                      >
-                        ⛶ Mode lecture immersive
-                      </button>
-                    </div>
                     {s.tip && (
                       <div
                         style={{
@@ -6122,111 +6100,6 @@ export default function App() {
         </div>
       )}
 
-      {/* MODE IMMERSIF SOURATE */}
-      {immersiveSurah !== null && SURAHS[immersiveSurah] && (() => {
-        const s = SURAHS[immersiveSurah];
-        return (
-          <div style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 500,
-            background: "#05110a",
-            overflowY: "auto",
-            WebkitOverflowScrolling: "touch",
-          }}>
-            {/* Barre haute */}
-            <div style={{
-              position: "sticky",
-              top: 0,
-              zIndex: 10,
-              background: "rgba(5,17,10,0.95)",
-              backdropFilter: "blur(8px)",
-              borderBottom: "1px solid rgba(15,122,74,0.25)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "14px 20px",
-            }}>
-              <div>
-                <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", fontFamily: "Georgia,serif" }}>
-                  {s.name}
-                </div>
-                <div style={{ fontSize: 20, color: "#4ecca3", fontFamily: "'Amiri',serif" }}>
-                  {s.ar_name}
-                </div>
-              </div>
-              <button
-                onClick={() => setImmersiveSurah(null)}
-                style={{
-                  background: "rgba(255,255,255,0.08)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  borderRadius: "50%",
-                  width: 38,
-                  height: 38,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#fff",
-                  fontSize: 18,
-                  cursor: "pointer",
-                }}
-              >✕</button>
-            </div>
-
-            {/* Versets */}
-            <div style={{ padding: "32px 24px 80px" }}>
-              {s.verses.map((v, vi) => (
-                <div key={vi} style={{
-                  marginBottom: 40,
-                  borderBottom: vi < s.verses.length - 1 ? "1px solid rgba(15,122,74,0.2)" : "none",
-                  paddingBottom: 40,
-                }}>
-                  <div style={{
-                    fontSize: 11,
-                    color: "rgba(201,168,118,0.7)",
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    marginBottom: 16,
-                    textAlign: "center",
-                  }}>
-                    Verset {vi + 1} / {s.verses.length}
-                  </div>
-                  <div style={{
-                    fontSize: 30,
-                    fontFamily: "'Amiri',Georgia,serif",
-                    color: "#ffffff",
-                    direction: "rtl",
-                    textAlign: "center",
-                    lineHeight: 2.0,
-                    marginBottom: 20,
-                  }}>
-                    {v[0]}
-                  </div>
-                  <div style={{
-                    fontSize: 14,
-                    color: "#4ecca3",
-                    textAlign: "center",
-                    fontStyle: "italic",
-                    marginBottom: 10,
-                    letterSpacing: "0.02em",
-                    lineHeight: 1.6,
-                  }}>
-                    {v[1]}
-                  </div>
-                  <div style={{
-                    fontSize: 13,
-                    color: "rgba(255,255,255,0.65)",
-                    textAlign: "center",
-                    lineHeight: 1.75,
-                  }}>
-                    {v[2]}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      })()}
     </div>
   );
 }
