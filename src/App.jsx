@@ -3112,6 +3112,75 @@ const HADITHS_IMPORTANTS = [
 ];
 
 /* ════════════════════════════════════════════════════════════════════
+ TAWHID — Les trois formes fondamentales de l'unicité divine
+═════════════════════════════════════════════════════════════════════ */
+
+const TAWHID = [
+  {
+    number: 1,
+    ar: "توحيد الربوبية",
+    name: "Tawḥīd ar-Rubūbiyya",
+    subtitle: "Unicité de la Seigneurie",
+    definition:
+      "Reconnaître qu'Allah est le seul Créateur, Seigneur, Souverain et Soutien de tout ce qui existe — sans associé, sans rival, sans concurrent dans Sa gouvernance de l'univers.",
+    principle:
+      "Il crée, Il donne la vie, Il donne la mort, Il dispose de toutes les affaires — nul ne partage cette maîtrise avec Lui.",
+    quranAr: "قُلْ مَن رَّبُّ السَّمَاوَاتِ وَالْأَرْضِ قُلِ اللَّهُ",
+    quranPh: "Qul man rabbu s-samāwāti wa-l-arḍ, quli llāh",
+    quranFr:
+      "« Dis : Qui est le Seigneur des cieux et de la terre ? Dis : Allah. »",
+    quranRef: "Coran 13:16",
+    notes: [
+      "Même les polythéistes du temps du Prophète ﷺ admettaient ce niveau (Coran 10:31 : « Si tu les interroges : qui vous a créés ? Ils répondront : Allah »). La profession de Rubūbiyya seule ne suffit donc pas à entrer en islam.",
+      "Ce tawhid fonde la confiance absolue (tawakkul) : si Allah seul gouverne tout, nulle créature ne peut nuire ni profiter sans Sa permission.",
+      "Il englobe aussi l'unicité de la législation (al-Ḥākimiyya) : Allah seul établit le licite et l'illicite (Coran 6:57 : « Le jugement n'appartient qu'à Allah »).",
+    ],
+  },
+  {
+    number: 2,
+    ar: "توحيد الألوهية",
+    name: "Tawḥīd al-Ulūhiyya",
+    subtitle: "Unicité de l'Adoration",
+    definition:
+      "Consacrer tous les actes d'adoration à Allah seul — sans en diriger aucun vers une créature, quelle qu'elle soit : saint, prophète, ange, idole ou génie.",
+    principle:
+      "C'est le sens profond de « Lā ilāha illā Allāh » : il n'existe aucune divinité digne d'adoration, si ce n'est Allah.",
+    quranAr: "وَمَا خَلَقْتُ الْجِنَّ وَالْإِنسَ إِلَّا لِيَعْبُدُونِ",
+    quranPh: "Wa-mā khalaqtu l-jinna wa-l-insa illā li-yaʿbudūn",
+    quranFr:
+      "« Je n'ai créé les djinns et les hommes que pour qu'ils M'adorent. »",
+    quranRef: "Coran 51:56",
+    notes: [
+      "C'est le message central de tous les prophètes depuis Nūḥ jusqu'à Muḥammad ﷺ (Coran 21:25 : « Nous n'avons envoyé avant toi aucun messager sans lui avoir révélé : Il n'y a pas de divinité digne d'adoration si ce n'est Moi, adorez-Moi »).",
+      "Les actes d'adoration concernés : la prière (ṣalāt), la supplication (duʿāʾ), la crainte (khawf), l'espoir (rajāʾ), l'amour (maḥabba), la confiance (tawakkul), l'invocation au secours (istigātha), le vœu (nadhr), le sacrifice (nahr). Les diriger vers autre qu'Allah constitue le shirk.",
+      "C'est précisément sur ce point que les Quraysh polythéistes refusèrent le Prophète ﷺ — non par déni de la Rubūbiyya, mais par refus d'abandonner leurs intermédiaires.",
+      "Ce tawhid est le plus crucial à vivre au quotidien : chaque acte d'adoration est un renouvellement du pacte d'unicité.",
+    ],
+  },
+  {
+    number: 3,
+    ar: "توحيد الأسماء والصفات",
+    name: "Tawḥīd al-Asmāʾ wa-ṣ-Ṣifāt",
+    subtitle: "Unicité des Noms et des Attributs",
+    definition:
+      "Affirmer pour Allah tous les Noms et Attributs que Lui-même et Son Prophète ﷺ Lui ont attribués, sans les dénaturer, les annuler, en chercher le comment, ni les assimiler aux attributs des créatures.",
+    principle:
+      "« Rien n'est semblable à Lui, et Il est l'Audient, le Clairvoyant. » (Coran 42:11) — affirmation et transcendance, simultanément.",
+    quranAr: "لَيْسَ كَمِثْلِهِ شَيْءٌ وَهُوَ السَّمِيعُ الْبَصِيرُ",
+    quranPh: "Laysa ka-mithlihi shayʾun wa-huwa s-samīʿu l-baṣīr",
+    quranFr:
+      "« Rien n'est semblable à Lui — et Il est l'Audient, le Clairvoyant. »",
+    quranRef: "Coran 42:11",
+    notes: [
+      "La règle d'or : affirmer (ithbāt) sans assimiler (tashbīh), sans nier (taʿṭīl), sans chercher le comment (takyīf), sans réinterpréter librement pour en changer le sens (taʾwīl arbitraire).",
+      "Exemples concrets : Allah possède une Main (al-yad), un Visage (al-wajh), Il s'élève sur le Trône (al-istiwāʾ) — on affirme ces réalités telles qu'elles viennent, en sachant qu'elles ne ressemblent à rien de créé.",
+      "Deux erreurs symétriques à éviter : le tashbīh (anthropomorphisme — imaginer les attributs divins à l'image du créé) et le taʿṭīl (déni des attributs pour éviter toute ressemblance, jusqu'à vider Allah de Sa réalité).",
+      "Les 99 Noms d'Allah (al-asmāʾ al-ḥusnā) relèvent directement de ce tawhid — les invoquer correctement et en méditer le sens est l'application pratique de cette croyance.",
+    ],
+  },
+];
+
+/* ════════════════════════════════════════════════════════════════════
  PALETTE — fond blanc, vert profond, lignes sobres
 ═════════════════════════════════════════════════════════════════════ */
 
@@ -3764,6 +3833,9 @@ export default function App() {
   const [openSurah, setOpenSurah] = useState(null);
   const [surahAutoPlay, setSurahAutoPlay] = useState(null);
   const [reciter, setReciter] = useState("Yasser_Ad-Dussary_128kbps");
+  const [currentTrackVerse, setCurrentTrackVerse] = useState(null);
+  const verseTimingsRef = useRef([]); // verse start times in seconds (scaled to actual audio)
+  const verseElsRef = useRef([]); // DOM refs for each verse element of the open surah
   const [swReady, setSwReady] = useState(false);
   const swRegistrationRef = useRef(null);
   const tabRefs = useRef({});
@@ -3783,6 +3855,8 @@ export default function App() {
     }
     setPlayingKey(null);
     setSurahAutoPlay(null);
+    setCurrentTrackVerse(null);
+    verseTimingsRef.current = [];
   };
 
   const handleTabChange = (newTab) => {
@@ -3884,6 +3958,16 @@ export default function App() {
     } catch {}
   }, []);
 
+  // Auto-scroll to highlighted verse during surah playback
+  useEffect(() => {
+    if (currentTrackVerse !== null && verseElsRef.current[currentTrackVerse]) {
+      verseElsRef.current[currentTrackVerse].scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [currentTrackVerse]);
+
   // Ref pour playAdhan (défini plus bas) — permet aux effets ci-dessus d'y accéder
   const playAdhanRef = useRef(null);
 
@@ -3926,18 +4010,116 @@ export default function App() {
     audio.play().catch(() => { audioRef.current = null; setPlayingKey(null); });
   };
 
+  // Mapping reciter key → search keyword in Quran.com reciter names
+  const QURAN_COM_KEYWORDS = {
+    "Yasser_Ad-Dussary_128kbps": "dussary",
+    "Abdurrahmaan_As-Sudais_192kbps": "sudais",
+    "Saood_ash-Shuraym_128kbps": "shuraym",
+  };
+  // Cache: reciterKey → quran.com reciterId (null = not found)
+  const quranComIdCache = useRef({});
+
+  // Fetch per-verse durations from Quran.com to estimate verse start times.
+  // Returns an array of start times in seconds (length = verses.length), or null on failure.
+  const fetchVerseTimings = async (surahNum, reciterKey, audioDuration, verseCount) => {
+    try {
+      // Resolve Quran.com reciter ID (cached after first lookup)
+      let reciterId = quranComIdCache.current[reciterKey];
+      if (reciterId === undefined) {
+        const keyword = QURAN_COM_KEYWORDS[reciterKey];
+        const res = await fetch("https://api.quran.com/api/v4/audio/reciters", { signal: AbortSignal.timeout(5000) });
+        if (!res.ok) throw new Error("reciters fetch failed");
+        const data = await res.json();
+        const match = data.audio_reciters?.find(r =>
+          r.reciter_name?.toLowerCase().includes(keyword)
+        );
+        reciterId = match?.id ?? null;
+        quranComIdCache.current[reciterKey] = reciterId;
+      }
+      if (!reciterId) throw new Error("reciter not found");
+
+      // Fetch verse audio data (includes segments with per-word timing)
+      const res = await fetch(
+        `https://api.quran.com/api/v4/verses/by_chapter/${surahNum}?audio=${reciterId}&per_page=300&fields=`,
+        { signal: AbortSignal.timeout(8000) }
+      );
+      if (!res.ok) throw new Error("verses fetch failed");
+      const data = await res.json();
+      const verses = data.verses;
+      if (!verses?.length || verses.length !== verseCount) throw new Error("verse count mismatch");
+
+      // Duration of each verse = end time of last word segment (in ms → seconds)
+      const durations = verses.map(v => {
+        const segs = v.audio?.segments;
+        if (!segs?.length) return 0;
+        return segs[segs.length - 1][2] / 1000;
+      });
+
+      const totalApiDuration = durations.reduce((a, b) => a + b, 0);
+      if (!totalApiDuration) throw new Error("no timing data");
+
+      // Compute cumulative start times, proportionally scaled to actual audio duration
+      let cum = 0;
+      return durations.map(d => {
+        const t = (cum / totalApiDuration) * audioDuration;
+        cum += d;
+        return t;
+      });
+    } catch {
+      return null;
+    }
+  };
+
+  // Proportional fallback: estimate verse start times from Arabic text character length
+  const estimateVerseTimings = (verses, audioDuration) => {
+    const chars = verses.map(v => v[0].length);
+    const total = chars.reduce((a, b) => a + b, 0);
+    let cum = 0;
+    return chars.map(c => {
+      const t = (cum / total) * audioDuration;
+      cum += c;
+      return t;
+    });
+  };
+
   const playSurah = (surahIdx) => {
     const s = SURAHS[surahIdx];
     if (!s) return;
     const url = getSurahAudioUrl(s.num);
     if (!url) return;
     stopAudio();
+    verseElsRef.current = [];
     const audio = new Audio(url);
     audioRef.current = audio;
     setSurahAutoPlay(surahIdx);
-    audio.onended = () => { audioRef.current = null; setSurahAutoPlay(null); };
-    audio.onerror = () => { audioRef.current = null; setSurahAutoPlay(null); };
-    audio.play().catch(() => { audioRef.current = null; setSurahAutoPlay(null); });
+
+    audio.addEventListener("loadedmetadata", async () => {
+      const dur = audio.duration;
+      if (!dur || !isFinite(dur)) return;
+      const apiTimings = await fetchVerseTimings(s.num, reciter, dur, s.verses.length);
+      verseTimingsRef.current = apiTimings ?? estimateVerseTimings(s.verses, dur);
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      const timings = verseTimingsRef.current;
+      if (!timings.length) return;
+      const t = audio.currentTime;
+      let idx = 0;
+      for (let i = timings.length - 1; i >= 0; i--) {
+        if (t >= timings[i]) { idx = i; break; }
+      }
+      setCurrentTrackVerse(prev => prev === idx ? prev : idx);
+    });
+
+    const onDone = () => {
+      audioRef.current = null;
+      setSurahAutoPlay(null);
+      setCurrentTrackVerse(null);
+      verseTimingsRef.current = [];
+    };
+    audio.addEventListener("ended", onDone);
+    audio.addEventListener("error", onDone);
+    audio.play().catch(onDone);
   };
 
   // ── Compteur Tasbih ──────────────────────────────────────────────
@@ -4635,42 +4817,64 @@ export default function App() {
                       </div>
                     )}
                     <div style={{ marginTop: 20 }}>
-                      {s.verses.map((v, vi) => (
-                        <div
-                          key={vi}
-                          style={{
-                            borderTop:
-                              vi > 0 ? `1px solid ${C.borderLight}` : "none",
-                            paddingTop: vi > 0 ? 18 : 0,
-                            marginTop: vi > 0 ? 18 : 0,
-                          }}
-                        >
+                      {s.verses.map((v, vi) => {
+                        const isActive = surahAutoPlay === i && currentTrackVerse === vi;
+                        return (
                           <div
+                            key={vi}
+                            ref={(el) => { verseElsRef.current[vi] = el; }}
                             style={{
-                              fontSize: 11,
-                              color: C.textSubtle,
-                              marginBottom: 10,
-                              letterSpacing: "0.1em",
-                              textTransform: "uppercase",
+                              borderTop:
+                                vi > 0 ? `1px solid ${C.borderLight}` : "none",
+                              paddingTop: vi > 0 ? 18 : 0,
+                              marginTop: vi > 0 ? 18 : 0,
                             }}
                           >
-                            Verset {vi + 1}
+                            <div
+                              style={{
+                                borderRadius: 6,
+                                padding: "6px 10px 10px",
+                                marginLeft: -10,
+                                marginRight: -10,
+                                borderLeft: isActive
+                                  ? `3px solid ${C.green}`
+                                  : "3px solid transparent",
+                                background: isActive
+                                  ? "rgba(15,122,74,0.06)"
+                                  : "transparent",
+                                transition: "background 0.35s ease, border-color 0.2s ease",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  fontSize: 11,
+                                  color: isActive ? C.green : C.textSubtle,
+                                  marginBottom: 10,
+                                  letterSpacing: "0.1em",
+                                  textTransform: "uppercase",
+                                  fontWeight: isActive ? 600 : 400,
+                                  transition: "color 0.2s ease",
+                                }}
+                              >
+                                Verset {vi + 1}
+                              </div>
+                              <ArabicLine
+                                ar={v[0]}
+                                ph={v[1]}
+                                fr={v[2]}
+                                onPlay={() =>
+                                  playVerseAudio(
+                                    getVerseAudioUrl(s.num, vi),
+                                    `surah-${s.num}-${vi}`
+                                  )
+                                }
+                                isPlaying={playingKey === `surah-${s.num}-${vi}`}
+                                reciterLabel={RECITERS.find(r => r.id === reciter)?.label}
+                              />
+                            </div>
                           </div>
-                          <ArabicLine
-                            ar={v[0]}
-                            ph={v[1]}
-                            fr={v[2]}
-                            onPlay={() =>
-                              playVerseAudio(
-                                getVerseAudioUrl(s.num, vi),
-                                `surah-${s.num}-${vi}`
-                              )
-                            }
-                            isPlaying={playingKey === `surah-${s.num}-${vi}`}
-                            reciterLabel={RECITERS.find(r => r.id === reciter)?.label}
-                          />
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </>
                 )}
@@ -5270,6 +5474,12 @@ export default function App() {
               >
                 Hadiths
               </SubTab>
+              <SubTab
+                active={coursTab === "tawhid"}
+                onClick={() => setCoursTab("tawhid")}
+              >
+                Tawḥīd
+              </SubTab>
             </div>
 
             {coursTab === "sahaba" && (
@@ -5412,6 +5622,195 @@ export default function App() {
                         {h.explain}
                       </p>
                     )}
+                  </Card>
+                ))}
+              </>
+            )}
+
+            {coursTab === "tawhid" && (
+              <>
+                <ImageBanner
+                  scene="kaaba"
+                  caption="Tawḥīd — L'unicité divine, fondement de l'islam"
+                  height={200}
+                />
+                <p
+                  style={{
+                    fontSize: 13.5,
+                    color: C.textMuted,
+                    marginBottom: 24,
+                    lineHeight: 1.7,
+                    fontStyle: "italic",
+                  }}
+                >
+                  Le tawḥīd — l'affirmation de l'unicité absolue d'Allah — est la racine de toute
+                  la religion. Les savants l'ont divisé en trois catégories fondamentales qui
+                  s'articulent et se complètent.
+                </p>
+                {TAWHID.map((t, i) => (
+                  <Card key={i}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "baseline",
+                        gap: 10,
+                        marginBottom: 4,
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 700,
+                          color: C.gold,
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                          flexShrink: 0,
+                        }}
+                      >
+                        {t.number} / 3
+                      </span>
+                      <h3
+                        style={{
+                          margin: 0,
+                          fontSize: 19,
+                          color: C.text,
+                          fontWeight: 700,
+                          fontFamily: "Georgia,serif",
+                        }}
+                      >
+                        {t.name}
+                      </h3>
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 22,
+                        color: C.green,
+                        fontFamily: "Georgia,serif",
+                        marginBottom: 4,
+                        direction: "rtl",
+                        textAlign: "right",
+                      }}
+                    >
+                      {t.ar}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 13,
+                        color: C.textSubtle,
+                        fontStyle: "italic",
+                        marginBottom: 18,
+                      }}
+                    >
+                      {t.subtitle}
+                    </div>
+
+                    <div
+                      style={{
+                        background: C.greenSoft,
+                        border: `1px solid ${C.green}`,
+                        borderRadius: 4,
+                        padding: "13px 16px",
+                        marginBottom: 16,
+                        fontSize: 13.5,
+                        color: C.greenDark,
+                        lineHeight: 1.65,
+                      }}
+                    >
+                      <strong>Définition ·</strong> {t.definition}
+                    </div>
+
+                    <div
+                      style={{
+                        padding: "10px 14px",
+                        background: C.surface2,
+                        borderRadius: 4,
+                        marginBottom: 18,
+                        fontSize: 13,
+                        color: C.textMuted,
+                        lineHeight: 1.65,
+                        fontStyle: "italic",
+                      }}
+                    >
+                      {t.principle}
+                    </div>
+
+                    {/* Preuve coranique */}
+                    <div
+                      style={{
+                        borderLeft: `3px solid ${C.gold}`,
+                        paddingLeft: 14,
+                        marginBottom: 18,
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: 20,
+                          direction: "rtl",
+                          textAlign: "right",
+                          color: C.text,
+                          lineHeight: 1.7,
+                          marginBottom: 6,
+                          fontFamily: "Georgia,serif",
+                        }}
+                      >
+                        {t.quranAr}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 12,
+                          color: C.textSubtle,
+                          fontStyle: "italic",
+                          marginBottom: 4,
+                        }}
+                      >
+                        {t.quranPh}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 13,
+                          color: C.textMuted,
+                          lineHeight: 1.6,
+                          marginBottom: 6,
+                        }}
+                      >
+                        {t.quranFr}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          color: C.gold,
+                          fontWeight: 600,
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {t.quranRef}
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        height: 1,
+                        background: C.borderLight,
+                        margin: "14px 0",
+                      }}
+                    />
+
+                    <ul
+                      style={{
+                        margin: 0,
+                        paddingLeft: 20,
+                        fontSize: 13,
+                        lineHeight: 1.75,
+                        color: C.textMuted,
+                      }}
+                    >
+                      {t.notes.map((n, ni) => (
+                        <li key={ni} style={{ marginBottom: 10 }}>
+                          {n}
+                        </li>
+                      ))}
+                    </ul>
                   </Card>
                 ))}
               </>
